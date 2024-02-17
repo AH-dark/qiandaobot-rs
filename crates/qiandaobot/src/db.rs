@@ -1,5 +1,6 @@
 use rudi::Transient;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
+
 use migration::{Migrator, MigratorTrait};
 
 use crate::libs::env::get_env;
@@ -22,7 +23,7 @@ async fn init_connection() -> DatabaseConnection {
 
     if !migrations.is_empty() {
         log::info!("Applying {:?} pending migrations", migrations.len());
-        Migrator::up(&db,None).await.unwrap_or_else(|err| {
+        Migrator::up(&db, None).await.unwrap_or_else(|err| {
             log::error!("Cannot apply pending migrations: {:?}", err);
             panic!("Cannot apply pending migrations: {:?}", err)
         });

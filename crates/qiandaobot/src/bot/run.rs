@@ -1,4 +1,5 @@
 use std::sync::Arc;
+
 use rudi::Singleton;
 use teloxide::Bot;
 use teloxide::repls::CommandReplExt;
@@ -11,8 +12,9 @@ use crate::bot::handlers::{CommandHandler, Handlers};
 #[Singleton]
 async fn run(client: Client, handlers: Handlers) {
     let handlers = Arc::new(handlers);
+    let bot = client.bot().to_owned();
 
-    Command::repl(client.bot().clone(),  move |bot: Bot, msg: Message, cmd: Command| {
+    Command::repl(bot, move |bot: Bot, msg: Message, cmd: Command| {
         let handlers = handlers.clone();
 
         async move {

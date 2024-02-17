@@ -1,9 +1,11 @@
+use rand::Rng;
 use rudi::Singleton;
 use sea_orm::{DatabaseConnection, entity::*, EntityTrait, PaginatorTrait, query::*};
 use teloxide::Bot;
 use teloxide::prelude::*;
-use teloxide::types::Message;
+use teloxide::types::{Message, MessageId};
 use teloxide::utils::command::BotCommands;
+
 use entity::message;
 
 use crate::bot::command::Command;
@@ -49,6 +51,33 @@ impl CommandHandler for Handlers {
             .await
             .expect("Cannot count messages");
         log::debug!("Messages count: {}", count);
+
+        if count == 0 {
+            bot.send_message(msg.chat.id, "没有信息供签到")
+                .await
+                .expect("Cannot send message");
+            return Ok(());
+        }
+
+        let offset = rand::thread_rng().gen_range(0..count);
+        let message = message::Entity::find()
+            .offset(offset)
+            .one(&self.db)
+            .await
+            .expect("Cannot find message");
+
+        match message {
+            Some(message) => {
+                bot.forward_message(msg.chat.id, ChatId(message.chat_id), MessageId(message.message_id))
+                    .await
+                    .expect("Cannot forward message");
+            }
+            None => {
+                bot.send_message(msg.chat.id, "没有信息供签到")
+                    .await
+                    .expect("Cannot send message");
+            }
+        }
 
         Ok(())
     }
