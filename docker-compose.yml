@@ -1,0 +1,16 @@
+name: qiandaobot-rs
+
+networks:
+  app-network:
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: qiandaobot
+      POSTGRES_USER: qiandaobot
+      POSTGRES_PASSWORD: qiandaobot
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network

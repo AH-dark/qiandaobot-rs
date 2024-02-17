@@ -1,0 +1,23 @@
+[package]
+name = "qiandaobot"
+description = "A telegram bot for qiandao"
+version = "0.1.0"
+edition = "2021"
+authors = ["AH-dark <ahdark@outlook.com>"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+qiandaobot-entity = { path = "../entity" }
+qiandaobot-migration = { path = "../migration" }
+
+dotenv = "0.15"
+teloxide = { version = "0.12", features = ["macros"] }
+log = "0.4"
+pretty_env_logger = "0.5"
+tokio = { version = "1.8", features = ["rt-multi-thread", "macros"] }
+rand = { version = "0.8.5", features = [] }
+sea-orm = { version = "0.12", features = ["sqlx-postgres", "sqlx-sqlite", "runtime-tokio-rustls", "macros"] }
+serde = "1.0"
+serde_json = "1.0"
+rudi = "0.8"
