@@ -15,14 +15,14 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(message::Column::Id)
-                            .integer()
+                            .big_integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
                     )
                     .col(
                         ColumnDef::new(message::Column::ChatId)
-                            .integer()
+                            .big_integer()
                             .not_null(),
                     )
                     .col(
@@ -32,7 +32,18 @@ impl MigrationTrait for Migration {
                     )
                     .to_owned(),
             )
-            .await
+            .await?;
+
+        manager.create_index(Index::create()
+            .table(message::Entity)
+            .name("idx_message_chat_id_message_id")
+            .col(message::Column::ChatId)
+            .col(message::Column::MessageId)
+            .unique()
+            .to_owned())
+            .await?;
+
+        Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
