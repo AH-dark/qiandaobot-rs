@@ -64,18 +64,14 @@ impl CommandHandler for Handlers {
             .offset(offset)
             .one(&self.db)
             .await
-            .expect("Cannot find message");
+            .expect("Failed to get a message");
 
         match message {
             Some(message) => {
-                bot.forward_message(msg.chat.id, ChatId(message.chat_id), MessageId(message.message_id))
-                    .await
-                    .expect("Cannot forward message");
+                bot.forward_message(msg.chat.id, ChatId(message.chat_id), MessageId(message.message_id)).await?;
             }
             None => {
-                bot.send_message(msg.chat.id, "没有信息供签到")
-                    .await
-                    .expect("Cannot send message");
+                bot.send_message(msg.chat.id, "没有信息供签到").await?;
             }
         }
 

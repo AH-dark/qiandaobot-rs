@@ -19,9 +19,9 @@ async fn run(client: Client, handlers: Handlers) {
 
         async move {
             match cmd {
-                Command::Start => handlers.start(&bot, &msg).await.expect("Cannot send message"),
-                Command::Help => handlers.help(&bot, &msg).await.expect("Cannot send message"),
-                Command::Qiandao => handlers.qiandao(&bot, &msg).await.expect("Cannot send message"),
+                Command::Start => handlers.start(&bot, &msg).await?,
+                Command::Help => handlers.help(&bot, &msg).await?,
+                Command::Qiandao => handlers.qiandao(&bot, &msg).await?,
             }
 
             Ok(())
