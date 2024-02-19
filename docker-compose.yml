@@ -4,6 +4,17 @@ networks:
   app-network:
 
 services:
+  bot:
+    build:
+      context: .
+      dockerfile: docker/qiandaobot/Dockerfile
+    networks:
+      - app-network
+    depends_on:
+      - db
+    env_file:
+      - .env
+
   db:
     image: postgres:15
     environment:

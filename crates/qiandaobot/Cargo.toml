@@ -1,11 +1,11 @@
 [package]
 name = "qiandaobot"
 description = "A telegram bot for qiandao"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 authors = ["AH-dark <ahdark@outlook.com>"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+repository = "https://github.com/AH-dark/qiandaobot-rs"
+readme = "../../README.md"
 
 [dependencies]
 qiandaobot-entity = { path = "../entity" }
