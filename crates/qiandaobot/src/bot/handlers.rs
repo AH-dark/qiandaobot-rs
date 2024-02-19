@@ -26,6 +26,9 @@ pub trait CommandHandler: Sync + Send {
     async fn start(&self, bot: &Bot, msg: &Message) -> ResponseResult<()>;
     async fn help(&self, bot: &Bot, msg: &Message) -> ResponseResult<()>;
     async fn qiandao(&self, bot: &Bot, msg: &Message) -> ResponseResult<()>;
+
+    async fn add_message(&self, chat_id: i64, message_id: i32) -> ResponseResult<()>;
+    async fn remove_message(&self, chat_id: i64, message_id: i32) -> ResponseResult<()>;
 }
 
 impl CommandHandler for Handlers {
@@ -72,6 +75,45 @@ impl CommandHandler for Handlers {
             }
             None => {
                 bot.send_message(msg.chat.id, "没有信息供签到").await?;
+            }
+        }
+
+        Ok(())
+    }
+
+    async fn add_message(&self, chat_id: i64, message_id: i32) -> ResponseResult<()> {
+        match (
+            message::ActiveModel {
+                id: NotSet,
+                chat_id: ActiveValue::Set(chat_id),
+                message_id: ActiveValue::Set(message_id),
+            }.insert(&self.db).await
+        ) {
+            Ok(_) => {
+                log::info!("Message added: chat_id={}, message_id={}", chat_id, message_id)
+            }
+            Err(err) => {
+                log::error!("Cannot add message: {:?}", err);
+            }
+        };
+
+        Ok(())
+    }
+
+    async fn remove_message(&self, chat_id: i64, message_id: i32) -> ResponseResult<()> {
+        match message::Entity::delete(
+            message::ActiveModel {
+                id: NotSet,
+                chat_id: ActiveValue::Set(chat_id),
+                message_id: ActiveValue::Set(message_id),
+            }
+        )
+            .exec(&self.db)
+            .await
+        {
+            Ok(_) => {}
+            Err(err) => {
+                log::error!("Cannot remove message: {:?}", err);
             }
         }
 
