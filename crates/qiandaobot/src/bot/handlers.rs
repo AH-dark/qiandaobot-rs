@@ -16,12 +16,6 @@ pub(super) struct Handlers {
     db: DatabaseConnection,
 }
 
-impl Handlers {
-    pub fn new(db: DatabaseConnection) -> Self {
-        Self { db }
-    }
-}
-
 pub trait CommandHandler: Sync + Send {
     async fn start(&self, bot: &Bot, msg: &Message) -> ResponseResult<()>;
     async fn help(&self, bot: &Bot, msg: &Message) -> ResponseResult<()>;
