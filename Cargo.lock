@@ -2384,9 +2384,9 @@ dependencies = [
 
 [[package]]
 name = "rudi"
-version = "0.8.0"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "92bf5e129fb7336fd24d1851d03162690a86190135ea91fafa4940a1f81b409d"
+checksum = "22e84beab6883f9ceecb071f534bed44e4a4ee1618f7de74d278c9c9ace1d47c"
 dependencies = [
  "inventory",
  "rudi-core",
@@ -2401,9 +2401,9 @@ checksum = "5f86701107ec8c5aefd855e7740e42c3cc3f2e8676b84a2807cdec67b964f2a5"
 
 [[package]]
 name = "rudi-macro"
-version = "0.8.0"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "582c5cf230f0786ba2bc690939a0b66497b2d4c655a64a3f544938698a9b4b58"
+checksum = "2580e75d7e707fc9138156b180b833c93e4dcbd7ba7c5e33064f24c64a6cb36c"
 dependencies = [
  "from-attr",
  "proc-macro2",
